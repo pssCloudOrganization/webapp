@@ -7,3 +7,7 @@ bp = Blueprint('health', __name__)
 @bp.route('/healthz', methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])
 def health_check():
     return HealthCheckController.health_check()
+
+@bp.app_errorhandler(404)
+def not_found_handler(status_code):
+    return HealthCheckController.not_found()
