@@ -11,3 +11,7 @@ def health_check():
 @bp.app_errorhandler(404)
 def not_found_handler(status_code):
     return HealthCheckController.not_found()
+
+@bp.app_errorhandler(500)
+def internal_server_err_handler(status_code):
+    return HealthCheckController.internal_server_err()

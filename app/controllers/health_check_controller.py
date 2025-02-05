@@ -6,9 +6,9 @@ class HealthCheckController:
     def health_check():
         if request.method != 'GET':
             return HealthCheckController.method_not_allowed()
-        # print(request.data, request.args)
+
         if request.data or request.args or request.content_type:
-            return Response(status=400)
+            return HealthCheckController.bad_request()
         
         result = HealthCheckService.perform_health_check()
         status_code = 200 if result else 503
@@ -24,6 +24,15 @@ class HealthCheckController:
     @staticmethod
     def not_found():
         return HealthCheckController.create_response(404)
+    
+    @staticmethod
+    def bad_request():
+        return HealthCheckController.create_response(400)
+
+    @staticmethod
+    def internal_server_err():
+        return HealthCheckController.create_response(500)
+    
 
     @staticmethod
     def create_response(status_code):

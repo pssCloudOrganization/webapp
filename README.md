@@ -25,7 +25,8 @@
         flask db migrate
         flask db upgrade
         flask run
-
+# Running Tests
+    python -m pytest tests/
 # Usage
     Once the application is running, you can use it to perform health checks on your application.
 
