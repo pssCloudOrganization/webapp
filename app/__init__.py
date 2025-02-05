@@ -1,12 +1,15 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from config.config import Config
+from config.config import Config, TestConfig
 
 db = SQLAlchemy()
 migrate = Migrate()
 
 def create_app(config_class=Config):
+    if config_class.TESTING:
+        config_class = TestConfig
+
     app = Flask(__name__)
     app.config.from_object(config_class)
 
