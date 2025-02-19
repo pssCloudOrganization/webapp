@@ -35,11 +35,11 @@ jobs:
           DB_NAME: ${{ secrets.DB_NAME }}
           DEFAULT_USER: ${{ secrets.DEFAULT_USER }}
           DEFAULT_PASS: ${{ secrets.DEFAULT_PASS }}
-          DB_HOST: ${{ secrets.HOST }}
+          HOST: ${{ secrets.HOST }}
         run: |
             sudo service mysql start
-            mysql -u $DEFAULT_USER -p$DEFAULT_PASS -e"CREATE USER '$MYSQL_USER'@'$DB_HOST' IDENTIFIED BY '$MYSQL_PASSWORD';"
-            mysql -u $DEFAULT_USER -p$DEFAULT_PASS -e"GRANT ALL PRIVILEGES ON test_$DB_NAME.* TO '$MYSQL_USER'@'$DB_HOST' WITH GRANT OPTION;"
+            mysql -u $DEFAULT_USER -p$DEFAULT_PASS -e"CREATE USER '$MYSQL_USER'@'$HOST' IDENTIFIED BY '$MYSQL_PASSWORD';"
+            mysql -u $DEFAULT_USER -p$DEFAULT_PASS -e"GRANT ALL PRIVILEGES ON test_$DB_NAME.* TO '$MYSQL_USER'@'$HOST' WITH GRANT OPTION;"
 
       - name: Create .env file
         env:
