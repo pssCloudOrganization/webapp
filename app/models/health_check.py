@@ -5,3 +5,5 @@ class HealthCheck(db.Model):
     __tablename__ = 'health_check'
     check_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     datetime = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+
+

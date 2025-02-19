@@ -37,6 +37,7 @@ setup_swap
 # 2. Install dependencies
 echo "Updating system and installing dependencies..."
 sudo apt update 
+sudo apt -y upgrade 
 sudo apt install -y unzip python3-pip python3.12-venv pkg-config libmysqlclient-dev mysql-server
 
 # 3. Install MySQL and configure the database
@@ -54,8 +55,13 @@ CREATE DATABASE IF NOT EXISTS ${DB_NAME};
 
 -- Create dedicated application user
 CREATE USER '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}';
-GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${MYSQL_USER}'@'localhost';
+
+GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${MYSQL_USER}'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
+
+GRANT ALL PRIVILEGES ON test_${DB_NAME}.* TO '${MYSQL_USER}'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
 EOF
 
 # 4. Create Linux group and user for the application
@@ -95,6 +101,7 @@ source venv/bin/activate
 echo "Updating .env file with database credentials..."
 cat <<EOL > ".env"
 DATABASE_URL=mysql://$MYSQL_USER:$MYSQL_PASSWORD@localhost/$DB_NAME
+TEST_DATABASE_URL=mysql://$MYSQL_USER:$MYSQL_PASSWORD@localhost/test_$DB_NAME
 EOL
 
 # 10. Install project dependencies
