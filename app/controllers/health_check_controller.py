@@ -33,7 +33,6 @@ class HealthCheckController:
     def internal_server_err():
         return HealthCheckController.create_response(500)
     
-
     @staticmethod
     def create_response(status_code):
         response = Response(status=status_code)

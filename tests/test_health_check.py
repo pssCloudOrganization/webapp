@@ -7,6 +7,7 @@ from config.config import TestConfig
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database, drop_database
 
+
 @pytest.fixture(scope='session')
 def app():
     # Create the test database
