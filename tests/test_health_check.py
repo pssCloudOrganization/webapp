@@ -4,20 +4,42 @@ from app import create_app, db
 from app.models.health_check import HealthCheck
 from app.services.health_check_service import HealthCheckService
 from config.config import TestConfig
+from sqlalchemy import create_engine
+from sqlalchemy_utils import database_exists, create_database, drop_database
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def app():
+    # Create the test database
+    engine = create_engine(TestConfig.SQLALCHEMY_DATABASE_URI)
+    if not database_exists(engine.url):
+        create_database(engine.url)
+
     app = create_app(config_class=TestConfig)
+    
     with app.app_context():
         db.create_all()
+
     yield app
+
+    # Drop the test database after all tests
     with app.app_context():
         db.session.remove()
         db.drop_all()
+    
+    drop_database(engine.url)
+
+@pytest.fixture(autouse=True)
+def db_session(app):
+    with app.app_context():
+        db.session.begin_nested()
+        yield db.session
+        db.session.rollback()
 
 @pytest.fixture
 def client(app):
     return app.test_client()
+
+
 
 def test_get_health_check(client: FlaskClient):
     # Test a successful GET request

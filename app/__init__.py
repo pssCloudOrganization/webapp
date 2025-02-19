@@ -18,5 +18,8 @@ def create_app(config_class=Config):
 
     from app.routes import health_check_routes
     app.register_blueprint(health_check_routes.bp)
+    with app.app_context():
+        db.create_all()
 
+        
     return app
