@@ -11,7 +11,7 @@ class HealthCheckController:
             return HealthCheckController.bad_request()
         
         result = HealthCheckService.perform_health_check()
-        status_code = 200 if result else 503
+        status_code = 200 if result else 504
         
         return HealthCheckController.create_response(status_code)
     
