@@ -16,7 +16,7 @@ jobs:
       DEFAULT_USER: ${{ secrets.DEFAULT_USER }}
       DEFAULT_PASS: ${{ secrets.DEFAULT_PASS }}
       HOST: ${{ secrets.HOST }}
-      GA_AWS_ACCESS_KEY: ${{ secrets.GA_AWS_ACCESS_KEY_ID }}
+      GA_AWS_ACCESS_KEY: ${{ secrets.GA_AWS_ACCESS_KEY }}
       GA_AWS_SECRET_ACCESS_KEY: ${{ secrets.GA_AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{secrets.AWS_REGION}}
       AMI_NAME: ${{ secrets.AMI_NAME }}
@@ -51,7 +51,7 @@ jobs:
             DEFAULT_USER=\${{ secrets.DEFAULT_USER }}
             DEFAULT_PASS=\${{ secrets.DEFAULT_PASS }}
             HOST=\${{ secrets.HOST }}
-            GA_AWS_ACCESS_KEY=\${{ secrets.GA_AWS_ACCESS_KEY_ID }}
+            GA_AWS_ACCESS_KEY=\${{ secrets.GA_AWS_ACCESS_KEY }}
             GA_AWS_SECRET_ACCESS_KEY=\${{ secrets.GA_AWS_SECRET_ACCESS_KEY }}
             AWS_REGION=\${{secrets.AWS_REGION}}
             AMI_NAME=\${{ secrets.AMI_NAME }}
