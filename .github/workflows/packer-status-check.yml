@@ -45,24 +45,6 @@ jobs:
       - name: Create .env file
         run: |
             cat << EOF > .env
-            MYSQL_USER=\${{ secrets.MYSQL_USER }}
-            MYSQL_PASSWORD=\${{ secrets.MYSQL_PASSWORD }}
-            DB_NAME=\${{ secrets.DB_NAME }}
-            DEFAULT_USER=\${{ secrets.DEFAULT_USER }}
-            DEFAULT_PASS=\${{ secrets.DEFAULT_PASS }}
-            HOST=\${{ secrets.HOST }}
-            GA_AWS_ACCESS_KEY=\${{ secrets.GA_AWS_ACCESS_KEY }}
-            GA_AWS_SECRET_ACCESS_KEY=\${{ secrets.GA_AWS_SECRET_ACCESS_KEY }}
-            AWS_REGION=\${{secrets.AWS_REGION}}
-            AMI_NAME=\${{ secrets.AMI_NAME }}
-            AWS_INSTANCE_TYPE=\${{ secrets.AWS_INSTANCE_TYPE }}
-            AWS_SSH_USERNAME=\${{ secrets.AWS_SSH_USERNAME }}
-            AWS_SUBNET_ID=\${{ secrets.AWS_SUBNET_ID }}
-            AWS_VPC_ID=\${{ secrets.AWS_VPC_ID }}
-            AWS_DEV_USER=\${{ secrets.AWS_DEV_USER }}
-            AWS_DEMO_USER=\${{ secrets.AWS_DEMO_USER }}
-            AWS_SOURCE_AMI=\${{ secrets.AWS_SOURCE_AMI }}
-
             TEST_DATABASE_URL=mysql://\${{ secrets.MYSQL_USER }}:\${{ secrets.MYSQL_PASSWORD }}@localhost/test_\${{ secrets.DB_NAME }}
             DATABASE_URL=mysql://\${{ secrets.MYSQL_USER }}:\${{ secrets.MYSQL_PASSWORD }}@localhost/\${{ secrets.DB_NAME }}
             EOF
