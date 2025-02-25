@@ -22,8 +22,8 @@ jobs:
       - name: creating zip
         run: |
             sudo apt-get install zip -y
-            zip webapp.zip .
-            
+            zip -r webapp.zip .  
+
       - name: Run packer fmt check
         run: |
             packer init .
