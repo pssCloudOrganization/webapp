@@ -100,8 +100,8 @@ source "amazon-ebs" "ubuntu" {
   source_ami      = var.aws_source_ami
   instance_type   = var.aws_instance_type
   region          = var.aws_region
-  access_key      = var.aws_access_key
-  secret_key      = var.aws_secret_key
+  # access_key      = var.aws_access_key
+  # secret_key      = var.aws_secret_key
   ssh_username    = var.aws_ssh_username
   subnet_id       = var.aws_subnet_id
   vpc_id          = var.aws_vpc_id
