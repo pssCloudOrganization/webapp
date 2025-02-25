@@ -117,6 +117,10 @@ jobs:
   
       - name: Run packer fmt check
         run: |
+            packer init .  
+            
+      - name: Run packer fmt check
+        run: |
           packer fmt -check .
           if [ $? -ne 0 ]; then
             echo "Packer fmt failed."
