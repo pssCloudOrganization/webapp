@@ -19,6 +19,11 @@ jobs:
         with:
           version: "latest"
 
+
+      - name: Run packer fmt check
+        run: |
+            packer init .
+
       - name: Run packer fmt check
         run: |
           packer fmt -check .
