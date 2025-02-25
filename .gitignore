@@ -6,6 +6,7 @@ __pycache__/
 # C extensions
 *.so
 
+*.zip
 # Distribution / packaging
 .Python
 build/
@@ -213,3 +214,40 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+
+
+
+# packer git ignore
+/bin
+/local
+/pkg
+/src
+/website/.sass-cache
+/website/build
+/website/tmp
+.DS_Store
+.vagrant
+.idea
+test/.env
+*~
+*.received.*
+*.swp
+
+vendor/
+
+website/.bundle
+website/vendor
+
+packer-test*.log
+
+*.received.txt
+*.received.json
+
+.idea/
+*.iml
+Thumbs.db
+/packer.exe
+.project
+cache
+/.vscode/
