@@ -192,10 +192,10 @@ build {
     ]
     inline = [
       "sleep 10",
-      "sudo apt-get remove --purge -y git",
-      "sudo apt-get autoremove -y",
       "sudo apt-get update",
       "sudo apt-get upgrade -y",
+      "sudo apt-get remove --purge -y git",
+      "sudo apt-get autoremove -y",
       "command -v git &> /dev/null && echo \"Git is still installed.\" || echo \"Git has been successfully removed.\"",
       "sudo apt install -y unzip python3-pip pkg-config python3-venv default-libmysqlclient-dev mysql-server",
       "sudo systemctl enable mysql",
