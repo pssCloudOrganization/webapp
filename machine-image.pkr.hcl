@@ -192,11 +192,12 @@ build {
     ]
     inline = [
       "sleep 10",
+      "sudo apt-get remove --purge -y git",
+      "sudo apt-get autoremove -y",
       "sudo apt-get update",
       "sudo apt-get upgrade -y",
+      "command -v git &> /dev/null && echo \"Git is still installed.\" || echo \"Git has been successfully removed.\"",
       "sudo apt install -y unzip python3-pip pkg-config python3-venv default-libmysqlclient-dev mysql-server",
-      # "sudo apt install -y unzip python3-pip pkg-config libmysqlclient-dev mysql-server",
-      # "sudo apt-get install -y unzip python3-pip python3-venv libmysqlclient-dev mysql-server",
       "sudo systemctl enable mysql",
       "sudo systemctl start mysql",
       "sudo mysql -u $DEFAULT_USER -p$DEFAULT_PASS -e\"CREATE USER '$MYSQL_USER'@'$HOST' IDENTIFIED BY '$MYSQL_PASSWORD';\"",
