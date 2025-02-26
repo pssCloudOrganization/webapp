@@ -19,7 +19,7 @@ jobs:
       GA_AWS_ACCESS_KEY: ${{ secrets.GA_AWS_ACCESS_KEY }}
       GA_AWS_SECRET_ACCESS_KEY: ${{ secrets.GA_AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{secrets.AWS_REGION}}
-      AMI_NAME: ${{ secrets.AMI_NAME }}
+      AWS_AMI_NAME: ${{ secrets.AWS_AMI_NAME }}
       AWS_INSTANCE_TYPE: ${{ secrets.AWS_INSTANCE_TYPE }}
       AWS_SSH_USERNAME: ${{ secrets.AWS_SSH_USERNAME }}
       AWS_SUBNET_ID: ${{ secrets.AWS_SUBNET_ID }}
