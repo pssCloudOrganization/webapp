@@ -4,6 +4,10 @@ packer {
       version = ">= 1.2.8, < 2.0.0"
       source  = "github.com/hashicorp/amazon"
     }
+    googlecompute = {
+      version = ">= 1.0.0, < 2.0.0"
+      source  = "github.com/hashicorp/googlecompute"
+    }
   }
 }
 
@@ -92,6 +96,35 @@ variable "DB_NAME" {
   default = env("DB_NAME")
 }
 
+variable "gcp_project_id" {
+  type    = string
+  default = env("GCP_PROJECT_ID")
+}
+
+variable "gcp_source_image" {
+  type    = string
+  default = env("GCP_SOURCE_IMAGE")
+}
+
+variable "gcp_ssh_username" {
+  type    = string
+  default = env("GCP_SSH_USERNAME")
+}
+
+variable "gcp_zone" {
+  type    = string
+  default = env("GCP_ZONE")
+}
+
+variable "gcp_disk_size" {
+  type    = string
+  default = env("GCP_DISK_SIZE")
+}
+
+variable "gcp_machine_type" {
+  type    = string
+  default = env("GCP_MACHINE_TYPE")
+}
 
 
 source "amazon-ebs" "ubuntu" {
@@ -113,23 +146,23 @@ source "amazon-ebs" "ubuntu" {
   }
 }
 
-# source "googlecompute" "ubuntu" {
-#   project_id   = var.project_id
-#   source_image = var.source_image
-#   zone         = var.zone
-#   machine_type = var.machine_type
-#   ssh_username = var.ssh_username
-
-#   image_name        = "csye6225-GCP-${var.aws_ami_name}_${formatdate("YYYY-MM-DD-hh-mm-ss", timestamp())}"
-#   image_description = "GCP Image for webapp"
-# }
-
+source "googlecompute" "ubuntu" {
+  image_name        = "csye6225-${var.aws_ami_name}-${formatdate("YYYY-MM-DD-hh-mm-ss", timestamp())}"
+  image_description = "Machine Image GCP"
+  project_id        = var.gcp_project_id
+  source_image      = var.gcp_source_image
+  ssh_username      = var.gcp_ssh_username
+  zone              = var.gcp_zone
+  disk_size         = var.gcp_disk_size
+  machine_type      = var.gcp_machine_type
+}
 
 
 build {
   name = "assignment-4"
   sources = [
     "source.amazon-ebs.ubuntu",
+    "source.googlecompute.ubuntu",
   ]
 
   provisioner "file" {
