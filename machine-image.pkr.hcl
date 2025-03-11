@@ -173,7 +173,7 @@ build {
   provisioner "file" {
     source      = "webapp.zip"
     destination = "/tmp/"
-  
+  }
   provisioner "file" {
     source      = "csye6225.service"
     destination = "/tmp/"
@@ -209,7 +209,7 @@ build {
   }
 
   provisioner "shell" {
-    script = "app-init.sh"
+    script = "init.sh"
   }
 }
 
