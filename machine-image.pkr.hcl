@@ -209,7 +209,7 @@ build {
   }
 
   provisioner "shell" {
-    script = "init.sh"
+    script = "app-init.sh"
   }
 }
 
