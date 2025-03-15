@@ -9,8 +9,8 @@ sudo rm /opt/csye6225/webapp.zip
 sudo chown -R csye6225:csye6225 /opt/csye6225
 sudo chmod -R 755 /opt/csye6225
 
-sudo mv /tmp/.env /opt/csye6225/webapp/.env
-sudo chown csye6225:csye6225 /opt/csye6225/webapp/.env
+# sudo mv /tmp/.env /opt/csye6225/webapp/.env
+# sudo chown csye6225:csye6225 /opt/csye6225/webapp/.env
 
 cd /opt/csye6225/webapp
 sudo -u csye6225 python3 -m venv venv

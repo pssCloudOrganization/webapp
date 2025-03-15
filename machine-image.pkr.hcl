@@ -159,16 +159,16 @@ source "googlecompute" "ubuntu" {
 
 
 build {
-  name = "assignment-4"
+  name = "assignment-5"
   sources = [
     "source.amazon-ebs.ubuntu",
     "source.googlecompute.ubuntu",
   ]
 
-  provisioner "file" {
-    source      = "./.env"
-    destination = "/tmp/"
-  }
+  # provisioner "file" {
+  #   source      = "./.env"
+  #   destination = "/tmp/"
+  # }
 
   provisioner "file" {
     source      = "webapp.zip"
@@ -183,12 +183,12 @@ build {
     environment_vars = [
       "DEBIAN_FRONTEND=noninteractive",
       "CHECKPOINT_DISABLE=1",
-      "DEFAULT_USER=${var.DEFAULT_USER}",
-      "DEFAULT_PASS=${var.DEFAULT_PASS}",
-      "MYSQL_USER=${var.MYSQL_USER}",
-      "MYSQL_PASSWORD=${var.MYSQL_PASSWORD}",
-      "HOST=${var.HOST}",
-      "DB_NAME=${var.DB_NAME}"
+      # "DEFAULT_USER=${var.DEFAULT_USER}",
+      # "DEFAULT_PASS=${var.DEFAULT_PASS}",
+      # "MYSQL_USER=${var.MYSQL_USER}",
+      # "MYSQL_PASSWORD=${var.MYSQL_PASSWORD}",
+      # "HOST=${var.HOST}",
+      # "DB_NAME=${var.DB_NAME}"
     ]
     inline = [
       "sleep 10",
@@ -197,14 +197,14 @@ build {
       "sudo apt-get remove --purge -y git",
       "sudo apt-get autoremove -y",
       "command -v git &> /dev/null && echo \"Git is still installed.\" || echo \"Git has been successfully removed.\"",
-      "sudo apt install -y unzip python3-pip pkg-config python3-venv default-libmysqlclient-dev mysql-server",
-      "sudo systemctl enable mysql",
-      "sudo systemctl start mysql",
-      "sudo mysql -u $DEFAULT_USER -p$DEFAULT_PASS -e\"CREATE USER '$MYSQL_USER'@'$HOST' IDENTIFIED BY '$MYSQL_PASSWORD';\"",
-      "sudo mysql -u $DEFAULT_USER -p$DEFAULT_PASS -e\"CREATE DATABASE $DB_NAME;\"",
-      "sudo mysql -u $DEFAULT_USER -p$DEFAULT_PASS -e\"GRANT ALL PRIVILEGES ON test_$DB_NAME.* TO '$MYSQL_USER'@'$HOST' WITH GRANT OPTION;\"",
-      "sudo mysql -u $DEFAULT_USER -p$DEFAULT_PASS -e\"GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$MYSQL_USER'@'$HOST' WITH GRANT OPTION;\"",
-      "sudo mysql -u $DEFAULT_USER -p$DEFAULT_PASS -e\"FLUSH PRIVILEGES;\""
+      "sudo apt install -y unzip python3-pip pkg-config python3-venv default-libmysqlclient-dev" # mysql-server",
+      # "sudo systemctl enable mysql",
+      # "sudo systemctl start mysql",
+      # "sudo mysql -u $DEFAULT_USER -p$DEFAULT_PASS -e\"CREATE USER '$MYSQL_USER'@'$HOST' IDENTIFIED BY '$MYSQL_PASSWORD';\"",
+      # "sudo mysql -u $DEFAULT_USER -p$DEFAULT_PASS -e\"CREATE DATABASE $DB_NAME;\"",
+      # "sudo mysql -u $DEFAULT_USER -p$DEFAULT_PASS -e\"GRANT ALL PRIVILEGES ON test_$DB_NAME.* TO '$MYSQL_USER'@'$HOST' WITH GRANT OPTION;\"",
+      # "sudo mysql -u $DEFAULT_USER -p$DEFAULT_PASS -e\"GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$MYSQL_USER'@'$HOST' WITH GRANT OPTION;\"",
+      # "sudo mysql -u $DEFAULT_USER -p$DEFAULT_PASS -e\"FLUSH PRIVILEGES;\""
     ]
   }
 
