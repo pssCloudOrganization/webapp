@@ -3,7 +3,7 @@ from app.controllers.file_controller import FileController
 
 bp = Blueprint('file', __name__, url_prefix='/v1')
 
-@bp.route('/file', methods=['POST'])
+@bp.route('/file', methods=['POST', 'PUT', 'OPTIONS', 'HEAD'])
 def add_file():
     return FileController.add_file()
 
