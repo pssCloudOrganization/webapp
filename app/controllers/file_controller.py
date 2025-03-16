@@ -30,11 +30,11 @@ class FileController:
 
     
     @staticmethod
-    def get_file():
+    def get_file(file_id):
         if request.method != 'GET':
             return FileController.method_not_allowed()
         
-        file_id = request.args.get('id')
+        # file_id = request.args.get('id')
         if not file_id:
             return FileController.bad_request()
         
@@ -45,11 +45,11 @@ class FileController:
         return jsonify(result), 200
     
     @staticmethod
-    def delete_file():
+    def delete_file(file_id):
         if request.method != 'DELETE':
             return FileController.method_not_allowed()
         
-        file_id = request.args.get('id')
+        # file_id = request.args.get('id')
         if not file_id:
             return FileController.bad_request()
         
@@ -87,3 +87,4 @@ class FileController:
         response.headers['Pragma'] = 'no-cache'
         response.headers['X-Content-Type-Options'] = 'nosniff'
         return response
+    
