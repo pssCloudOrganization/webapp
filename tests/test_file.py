@@ -88,13 +88,13 @@ def test_get_file(client: FlaskClient):
     db.session.commit()
     
     # Test successful file retrieval
-    response = client.get(f'/v1/file?id={file_id}')
+    response = client.get(f'/v1/file/{file_id}')
     assert response.status_code == 200
     data = json.loads(response.data)
     assert data['id'] == file_id
     
     # Test file not found
-    response = client.get('/v1/file?id=nonexistent-id')
+    response = client.get('/v1/file/nonexistent-id')
     assert response.status_code == 404
     
     # Test missing id parameter
@@ -113,11 +113,11 @@ def test_delete_file(client: FlaskClient, mock_s3):
     db.session.commit()
     
     # Test successful file deletion
-    response = client.delete(f'/v1/file?id={file_id}')
+    response = client.delete(f'/v1/file/{file_id}')
     assert response.status_code == 204
     
     # Test file not found
-    response = client.delete('/v1/file?id=nonexistent-id')
+    response = client.delete('/v1/file/nonexistent-id')
     assert response.status_code == 404
     
     # Test missing id parameter
