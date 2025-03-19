@@ -24,19 +24,27 @@ class FileService:
             s3_key = f"{file_id}{file_extension}"
             
             # Upload file to S3
-            s3.upload_fileobj(file_obj, bucket_name, s3_key)
+            s3.upload_fileobj(file_obj, bucket_name, s3_key, ExtraArgs={'ContentType': file_obj.content_type})
             
             # Create file record in database
+            response = s3.head_object(Bucket=bucket_name, Key=s3_key)
             file_record = File(
                 id=file_id,
                 file_name=file_obj.filename,
-                url=f"https://{bucket_name}.s3.{aws_region}.amazonaws.com/{s3_key}"
+                url=f"{bucket_name}/{s3_key}",
+                full_url=f"https://{bucket_name}.s3.{aws_region}.amazonaws.com/{s3_key}",
+                content_type=response.get('ContentType'),
+                file_size=response.get('ContentLength'),
+                etag=response.get('ETag')
             )
 
             print("debug here")
             print("file_id", file_id)
             print("file_url", file_record.url)
             print("file_record", file_record)
+            print("content_type", response.get('ContentType'))
+            print("content_size", response.get('ContentLength'))
+            print("etag", response.get('ETag').strip('"'))
             
             db.session.add(file_record)
             db.session.commit()
