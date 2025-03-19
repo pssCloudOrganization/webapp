@@ -56,6 +56,12 @@ def mock_s3():
 
 def test_add_file(client: FlaskClient, mock_s3):
     # Create a mock file
+    # mock_s3 = mock_s3.return_value
+    mock_s3.head_object.return_value = {
+        'ContentType': 'image/jpeg',
+        'ContentLength': 12345,
+        'ETag': 'etag'
+    }
     file_data = io.BytesIO(b'test file content')
     
     # Test successful file upload
@@ -64,6 +70,8 @@ def test_add_file(client: FlaskClient, mock_s3):
         data={'profilePic': (file_data, 'test.jpg')},
         content_type='multipart/form-data'
     )
+
+    
     
     assert response.status_code == 201
     data = json.loads(response.data)
@@ -82,7 +90,11 @@ def test_get_file(client: FlaskClient):
     file = File(
         id=file_id,
         file_name='test.jpg',
-        url='test-bucket/test.jpg'
+        url='test-bucket/test.jpg',
+        full_url='https://aws.com',
+        content_type='image/jpg',
+        file_size=20000,
+        etag = 'etag'
     )
     db.session.add(file)
     db.session.commit()
@@ -107,7 +119,11 @@ def test_delete_file(client: FlaskClient, mock_s3):
     file = File(
         id=file_id,
         file_name='test.jpg',
-        url='test-bucket/test.jpg'
+        url='test-bucket/test.jpg',
+        full_url='https://aws.com',
+        content_type='image/jpg',
+        file_size=20000,
+        etag = 'etag'
     )
     db.session.add(file)
     db.session.commit()
