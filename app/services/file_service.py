@@ -12,6 +12,7 @@ class FileService:
             # Initialize S3 client
             s3 = boto3.client('s3')
             bucket_name = os.environ.get('S3_BUCKET_NAME')
+            aws_region = os.environ.get('AWS_REGION')
             
             # Generate a unique file_id
             file_id = str(uuid.uuid4())
@@ -29,7 +30,7 @@ class FileService:
             file_record = File(
                 id=file_id,
                 file_name=file_obj.filename,
-                url=f"{bucket_name}/{s3_key}"
+                url=f"https://{bucket_name}.s3.{aws_region}.amazonaws.com/{s3_key}"
             )
 
             print("debug here")
