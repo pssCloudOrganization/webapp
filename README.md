@@ -29,5 +29,7 @@
     python -m pytest tests/
 # Usage
     Once the application is running, you can use it to perform health checks on your application.
+# Features
+    Upload files using the API on S3 buckets.
 
 
