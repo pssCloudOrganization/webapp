@@ -178,6 +178,10 @@ build {
     source      = "csye6225.service"
     destination = "/tmp/"
   }
+  provisioner "file" {
+    source      = "cloudwatch-config.json"
+    destination = "/tmp/"
+  }
 
   provisioner "shell" {
     environment_vars = [

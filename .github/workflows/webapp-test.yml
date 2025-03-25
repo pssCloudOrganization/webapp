@@ -25,6 +25,10 @@ jobs:
             sudo apt update && sudo apt upgrade
             sudo apt install -y python3-pip pkg-config libmysqlclient-dev
 
+      - name: Creating logs folder.
+        run: |
+            sudo mkdir -p /var/log/webapp/
+
       - name: Install required libraries from requirements.txt
         run: |
             pip install -r requirements.txt
@@ -47,8 +51,10 @@ jobs:
           MYSQL_USER: ${{ secrets.MYSQL_USER }}
           MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
           DB_NAME: ${{ secrets.DB_NAME }}
+          LOG_FILE_PATH: ${{secrets.LOG_FILE_PATH}}
         run: |
             echo "TEST_DATABASE_URL=mysql://$MYSQL_USER:$MYSQL_PASSWORD@localhost/test_$DB_NAME" > .env
+            echo "LOG_FILE_PATH=$LOG_FILE_PATH" >> .env
 
       - name: Run tests
         run: |

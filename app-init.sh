@@ -3,6 +3,17 @@ sudo useradd csye6225 --shell /usr/sbin/nologin -g csye6225
 sudo mv /tmp/csye6225.service /etc/systemd/system/
 sudo mkdir -p /opt/csye6225/webapp
 
+
+sudo mkdir -p /var/log/webapp/
+# sudo touch csye6225.log
+sudo mv /tmp/cloudwatch-config.json /opt/
+sudo apt install -y amazon-cloudwatch-agent
+# sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/cloudwatch-config.json -s
+# sudo systemctl enable amazon-cloudwatch-agent
+# sudo systemctl restart amazon-cloudwatch-agent
+
+
+
 sudo mv /tmp/webapp.zip /opt/csye6225/
 sudo unzip -o /opt/csye6225/webapp.zip -d /opt/csye6225/webapp
 sudo rm /opt/csye6225/webapp.zip
