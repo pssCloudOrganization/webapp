@@ -51,9 +51,10 @@ jobs:
           MYSQL_USER: ${{ secrets.MYSQL_USER }}
           MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
           DB_NAME: ${{ secrets.DB_NAME }}
+          LOG_FILE_PATH: ${{secrets.LOG_FILE_PATH}}
         run: |
             echo "TEST_DATABASE_URL=mysql://$MYSQL_USER:$MYSQL_PASSWORD@localhost/test_$DB_NAME" > .env
-
+            echo "LOG_FILE_PATH=$LOG_FILE_PATH" >> .env
       - name: Run tests
         run: |
             sudo python3 -m pytest tests/

@@ -5,12 +5,15 @@ import traceback
 from functools import wraps
 from flask import request, g
 from datetime import datetime, timezone
+import os
 # import app
 # Configure logging with UTC time
 logger = logging.getLogger('webapp')
 logger.setLevel(logging.INFO)
 
-handler = logging.FileHandler('/var/log/webapp/csye6225.log')
+log_file_path = os.getenv("LOG_FILE_PATH", "/var/log/webapp/csye6225.log")
+
+handler = logging.FileHandler(log_file_path)
 formatter = logging.Formatter('%(asctime)s UTC - %(name)s - %(levelname)s - %(message)s', 
                              '%Y-%m-%d %H:%M:%S')
 # Set the timezone to UTC for the formatter
