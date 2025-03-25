@@ -24,6 +24,10 @@ jobs:
         run: |
             sudo apt update && sudo apt upgrade
             sudo apt install -y python3-pip pkg-config libmysqlclient-dev
+            
+      - name: Creating logs folder.
+        run: |
+            sudo mkdir -p /var/log/webapp/
 
       - name: Install required libraries from requirements.txt
         run: |

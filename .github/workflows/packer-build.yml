@@ -29,6 +29,10 @@ jobs:
         run: |
             pip install -r requirements.txt
 
+      - name: Creating logs folder.
+        run: |
+            sudo mkdir -p /var/log/webapp/
+            
       - name: Configure MySQL
         env:
           MYSQL_USER: ${{ secrets.MYSQL_USER }}
