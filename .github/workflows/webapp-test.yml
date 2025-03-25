@@ -56,6 +56,6 @@ jobs:
 
       - name: Run tests
         run: |
-            sudo python -m pytest tests/
+            sudo python3 -m pytest tests/
         
     
