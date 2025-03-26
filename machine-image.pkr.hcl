@@ -162,7 +162,7 @@ build {
   name = "assignment-5"
   sources = [
     "source.amazon-ebs.ubuntu",
-    "source.googlecompute.ubuntu",
+    # "source.googlecompute.ubuntu",
   ]
 
   # provisioner "file" {
