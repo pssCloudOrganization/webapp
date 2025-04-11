@@ -215,6 +215,10 @@ build {
   provisioner "shell" {
     script = "app-init.sh"
   }
+  post-processor "manifest" {
+    output     = "packer-manifest.json"
+    strip_path = true
+  }
 }
 
 
