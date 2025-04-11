@@ -83,6 +83,8 @@ jobs:
       AWS_DEV_USER: ${{ secrets.AWS_DEV_USER }}
       AWS_DEMO_USER: ${{ secrets.AWS_DEMO_USER }}
       AWS_SOURCE_AMI: ${{ secrets.AWS_SOURCE_AMI }}
+      DEMO_AWS_ACCESS_KEY: ${{ secrets.DEMO_AWS_ACCESS_KEY}}
+      DEMO_AWS_SECRET_ACCESS_KEY: ${{ secrets.DEMO_AWS_SECRET_ACCESS_KEY}}
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       GCP_SOURCE_IMAGE: ${{ secrets.GCP_SOURCE_IMAGE }}
       GCP_SSH_USERNAME: ${{ secrets.GCP_SSH_USERNAME }}
@@ -162,3 +164,63 @@ jobs:
       - name: Build AMI
         run: |
             packer build machine-image.pkr.hcl
+
+      - name: Extract AMI ID
+        id: ami_output
+        run: |
+          AMI_ID=$(jq -r '.builds[0].artifact_id' packer-manifest.json | cut -d ':' -f2)
+          echo "ami_id=$AMI_ID" >> "$GITHUB_OUTPUT"
+          
+
+      - name: Reconfigure AWS CLI for DEMO Account
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.DEMO_AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.DEMO_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Create New Launch Template Version
+        id: new_launch_template
+        run: |
+          LATEST_VERSION=$(aws ec2 describe-launch-template-versions \
+            --launch-template-name ${{ secrets.LAUNCH_TEMPLATE_NAME }} \
+            --query 'LaunchTemplateVersions[-1].VersionNumber' \
+            --output text)
+      
+          VERSION=$(aws ec2 create-launch-template-version \
+            --launch-template-name ${{ secrets.LAUNCH_TEMPLATE_NAME }} \
+            --source-version $LATEST_VERSION \
+            --launch-template-data "{\"ImageId\":\"${{ steps.ami_output.outputs.ami_id }}\"}" \
+            --query 'LaunchTemplateVersion.VersionNumber' \
+            --output text)
+      
+          echo "lt_version=$VERSION" >> "$GITHUB_OUTPUT"
+      
+
+      - name: Update Auto Scaling Group
+        run: |
+          aws autoscaling update-auto-scaling-group \
+            --auto-scaling-group-name ${{ secrets.ASG_NAME }} \
+            --launch-template "LaunchTemplateName=${{ secrets.LAUNCH_TEMPLATE_NAME }},Version=${{ steps.new_launch_template.outputs.lt_version }}"
+          
+          
+      - name: Issue Instance Refresh and Wait for Completion
+        id: instance_refresh
+        run: |
+          # Trigger instance refresh and get the refresh ID
+          REFRESH_ID=$(aws autoscaling start-instance-refresh --auto-scaling-group-name ${{ secrets.ASG_NAME }} --query 'InstanceRefreshId' --output text)
+          echo "Instance refresh initiated with ID: $REFRESH_ID"
+          
+          # Poll every 30 seconds until the refresh status is no longer "InProgress"
+          STATUS="InProgress"
+          while [ "$STATUS" = "InProgress" ]; do
+            sleep 30
+            STATUS=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name ${{ secrets.ASG_NAME }} --query 'InstanceRefreshes[0].Status' --output text)
+            echo "Current instance refresh status: $STATUS"
+          done
+
+          # Exit with a non-zero status if the refresh did not complete successfully
+          if [ "$STATUS" != "Successful" ]; then
+            echo "Instance refresh failed or did not complete successfully."
+            exit 1
+          fi

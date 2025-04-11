@@ -10,6 +10,11 @@ bp = Blueprint('health', __name__)
 def health_check():
     return HealthCheckController.health_check()
 
+@bp.route('/cicd', methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])
+@log_api_call
+def health_check():
+    return HealthCheckController.health_check()
+
 @bp.app_errorhandler(404)
 @log_api_call
 def not_found_handler(status_code):
