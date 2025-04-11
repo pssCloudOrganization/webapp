@@ -15,6 +15,18 @@ class HealthCheckController:
         
         return HealthCheckController.create_response(status_code)
     
+    @staticmethod
+    def health_check_copy():
+        if request.method != 'GET':
+            return HealthCheckController.method_not_allowed()
+
+        if request.data or request.args or request.content_type:
+            return HealthCheckController.bad_request()
+        
+        result = HealthCheckService.perform_health_check()
+        status_code = 200 if result else 503
+        
+        return HealthCheckController.create_response(status_code)
 
     #helper functions from here
     @staticmethod
