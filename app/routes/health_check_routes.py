@@ -10,10 +10,10 @@ bp = Blueprint('health', __name__)
 def health_check():
     return HealthCheckController.health_check()
 
-# @bp.route('/cicd', methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])
-# @log_api_call
-# def health_check_copy():
-#     return HealthCheckController.health_check_copy()
+@bp.route('/cicd', methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])
+@log_api_call
+def health_check_copy():
+    return HealthCheckController.health_check_copy()
 
 @bp.app_errorhandler(404)
 @log_api_call
